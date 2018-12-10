@@ -9,6 +9,7 @@ import (
 	"github.com/spf13/viper"
 )
 
+// Constants TODO add comments
 type Constants struct {
 	PORT  string
 	Mongo struct {
@@ -17,6 +18,7 @@ type Constants struct {
 	}
 }
 
+// Config TODO add comments
 type Config struct {
 	Constants
 	Database *mgo.Database
