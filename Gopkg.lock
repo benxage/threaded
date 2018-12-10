@@ -130,17 +130,6 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:5dca3a4bad83c095faf81c424849b5c9d5154b7ee0063469f4f8f4555f67a2fe"
-  name = "github.com/tonyalaribe/todoapi"
-  packages = [
-    "withmongodb/features/todo",
-    "withmongodb/internal/config",
-  ]
-  pruneopts = "UT"
-  revision = "0dbdec9b7fe444d350670042b575169ca2d2136b"
-
-[[projects]]
-  branch = "master"
   digest = "1:e52bdb638551e9a3d12b62c90ede03f09dc19348902cb6acd3aad8d0f45d1d5a"
   name = "golang.org/x/sys"
   packages = ["unix"]
@@ -180,8 +169,6 @@
     "github.com/go-chi/chi/middleware",
     "github.com/go-chi/render",
     "github.com/spf13/viper",
-    "github.com/tonyalaribe/todoapi/withmongodb/features/todo",
-    "github.com/tonyalaribe/todoapi/withmongodb/internal/config",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
