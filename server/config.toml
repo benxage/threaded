@@ -1,4 +1,4 @@
-PORT=3000 
+PORT=4000 
 [Mongo]
   URL = "localhost:27017"
-  DBName = "todoapp"
+  DBName = "slackChan"

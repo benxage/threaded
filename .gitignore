@@ -1,4 +1,2 @@
-vendor
-
 .DS_STORE
-
+server/vendor

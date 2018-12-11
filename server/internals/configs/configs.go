@@ -9,29 +9,31 @@ import (
 	"github.com/spf13/viper"
 )
 
-// Constants is set according to the environment variables given in config.toml
-// config.toml must conform to the structure of this. PORT will default to
-// 8080 if it's not set in config.toml.
-type Constants struct {
-	PORT  string
-	Mongo struct {
-		URL    string
-		DBName string
+type (
+	// Constants is set according to the environment variables given in config.toml
+	// config.toml must conform to the structure of this. PORT will default to
+	// 8080 if it's not set in config.toml.
+	Constants struct {
+		PORT  string
+		Mongo struct {
+			URL    string
+			DBName string
+		}
 	}
-}
 
-// Config represents the actual configuration object passed around. It includes
-// the constants set in Constants and an actual MongoDB instance.
-type Config struct {
-	Constants
-	Database *mgo.Database
-}
+	// Config represents the actual configuration object passed around. It includes
+	// the constants set in Constants and an actual MongoDB instance.
+	Config struct {
+		Constants
+		Database *mgo.Database
+	}
+)
 
 // New is used to generate a configuration instance which will be passed around
 // the codebase.
 func New(configFilename string) (*Config, error) {
 	config := Config{}
-	constants, err := initViper(configFilename)
+	constants, err := initConstants(configFilename)
 	config.Constants = constants
 	if err != nil {
 		return &config, err
@@ -46,14 +48,13 @@ func New(configFilename string) (*Config, error) {
 	return &config, err
 }
 
-func initViper(configFilename string) (Constants, error) {
+func initConstants(configFilename string) (Constants, error) {
 	// Config filename without the .TOML or .YAML extension
 	viper.SetConfigName(configFilename)
 	// Search server project directory (NOT this directory)
 	viper.AddConfigPath(".")
 
-	err := viper.ReadInConfig()
-	if err != nil {
+	if err := viper.ReadInConfig(); err != nil {
 		return Constants{}, err
 	}
 
@@ -65,11 +66,10 @@ func initViper(configFilename string) (Constants, error) {
 
 	// Set default PORT to 8080 (if not given) and read the config
 	viper.SetDefault("PORT", "8080")
-	if err = viper.ReadInConfig(); err != nil {
+	if err := viper.ReadInConfig(); err != nil {
 		log.Panicf("Error reading config file, %s", err)
 	}
 
 	var constants Constants
-	err = viper.Unmarshal(&constants)
-	return constants, err
+	return constants, viper.Unmarshal(&constants)
 }

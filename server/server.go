@@ -5,14 +5,14 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/bli940505/slackChan/features/todo"
-	"github.com/bli940505/slackChan/internal/config"
+	"github.com/bli940505/slackChan/server/api/example"
+	"github.com/bli940505/slackChan/server/internals/configs"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/render"
 )
 
-// Router is the main entry point that returns the project's root router
+// Router is the main entry point that returns the root router
 func Router(configuration *config.Config) *chi.Mux {
 	router := chi.NewRouter()
 	router.Use(
@@ -24,16 +24,13 @@ func Router(configuration *config.Config) *chi.Mux {
 	)
 
 	// TODO: mount as sub-router for version management?
-	// router.Route("/v1", func(r chi.Router) {
-	// 	r.Mount("/api/todo", todo.Routes(configuration))
-	// })
-	router.Mount("/api/todo", todo.Routes(configuration))
+	router.Mount("/api/example", example.Routes(configuration))
 
 	return router
 }
 
 func main() {
-	// You can specifiy a *.toml file as the config file by passing in `-config=<filename>`
+	// You can specifiy a *.toml file as the config by passing in `-config=<filename>`
 	configFilename := flag.String("config", "config", "config filename; must exist under server folder")
 	flag.Parse()
 
