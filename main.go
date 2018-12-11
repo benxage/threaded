@@ -23,7 +23,7 @@ func Routes(configuration *config.Config) *chi.Mux {
 	)
 
 	router.Route("/v1", func(r chi.Router) {
-		r.Mount("/api/todo", todo.New(configuration).Routes())
+		r.Mount("/api/todo", todo.Routes(configuration))
 	})
 
 	return router
