@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"net/http"
 
@@ -11,8 +12,8 @@ import (
 	"github.com/go-chi/render"
 )
 
-// Routes TODO add comments
-func Routes(configuration *config.Config) *chi.Mux {
+// Router is the main entry point that returns the project's root router
+func Router(configuration *config.Config) *chi.Mux {
 	router := chi.NewRouter()
 	router.Use(
 		render.SetContentType(render.ContentTypeJSON), // Set content-Type headers as application/json
@@ -22,28 +23,36 @@ func Routes(configuration *config.Config) *chi.Mux {
 		middleware.Recoverer,       // Recover from panics without crashing server
 	)
 
-	router.Route("/v1", func(r chi.Router) {
-		r.Mount("/api/todo", todo.Routes(configuration))
-	})
+	// TODO: mount as sub-router for version management?
+	// router.Route("/v1", func(r chi.Router) {
+	// 	r.Mount("/api/todo", todo.Routes(configuration))
+	// })
+	router.Mount("/api/todo", todo.Routes(configuration))
 
 	return router
 }
 
 func main() {
-	configuration, err := config.New()
+	// You can specifiy a *.toml file as the config file by passing in `-config=<filename>`
+	configFilename := flag.String("config", "config", "config filename; must exist under server folder")
+	flag.Parse()
+
+	configuration, err := config.New(*configFilename)
 	if err != nil {
 		log.Panicln("Configuration error", err)
 	}
-	router := Routes(configuration)
 
+	router := Router(configuration)
+
+	// Walk and print out all routes
 	walkFunc := func(method string, route string, handler http.Handler, middlewares ...func(http.Handler) http.Handler) error {
-		log.Printf("%s %s\n", method, route) // Walk and print out all routes
+		log.Printf("%s %s\n", method, route)
 		return nil
 	}
 	if err := chi.Walk(router, walkFunc); err != nil {
-		log.Panicf("Logging err: %s\n", err.Error()) // panic if there is an error
+		log.Panicf("Logging err: %s\n", err.Error())
 	}
 
-	log.Println("Serving application at PORT :" + configuration.Constants.PORT)
-	log.Fatal(http.ListenAndServe(":"+configuration.Constants.PORT, router)) // Note, the port is usually gotten from the environment.
+	log.Println("Application running on PORT: " + configuration.Constants.PORT)
+	log.Fatal(http.ListenAndServe(":"+configuration.Constants.PORT, router))
 }

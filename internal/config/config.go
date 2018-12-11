@@ -9,6 +9,9 @@ import (
 	"github.com/spf13/viper"
 )
 
+// Constants is set according to the environment variables given in config.toml
+// config.toml must conform to the structure of this. PORT will default to
+// 8080 if it's not set in config.toml.
 type Constants struct {
 	PORT  string
 	Mongo struct {
@@ -17,38 +20,50 @@ type Constants struct {
 	}
 }
 
+// Config represents the actual configuration object passed around. It includes
+// the constants set in Constants and an actual MongoDB instance.
 type Config struct {
 	Constants
 	Database *mgo.Database
 }
 
-// NewConfig is used to generate a configuration instance which will be passed around the codebase
-func New() (*Config, error) {
+// New is used to generate a configuration instance which will be passed around
+// the codebase.
+func New(configFilename string) (*Config, error) {
 	config := Config{}
-	constants, err := initViper()
+	constants, err := initViper(configFilename)
 	config.Constants = constants
 	if err != nil {
 		return &config, err
 	}
+
 	dbSession, err := mgo.Dial(config.Constants.Mongo.URL)
 	if err != nil {
 		return &config, err
 	}
+
 	config.Database = dbSession.DB(config.Constants.Mongo.DBName)
 	return &config, err
 }
 
-func initViper() (Constants, error) {
-	viper.SetConfigName("todo.config") // Configuration fileName without the .TOML or .YAML extension
-	viper.AddConfigPath(".")           // Search the root directory for the configuration file
-	err := viper.ReadInConfig()        // Find and read the config file
-	if err != nil {                    // Handle errors reading the config file
+func initViper(configFilename string) (Constants, error) {
+	// Config filename without the .TOML or .YAML extension
+	viper.SetConfigName(configFilename)
+	// Search server project directory (NOT this directory)
+	viper.AddConfigPath(".")
+
+	err := viper.ReadInConfig()
+	if err != nil {
 		return Constants{}, err
 	}
-	viper.WatchConfig() // Watch for changes to the configuration file and recompile
+
+	// Watch for changes to the configuration file and recompile
+	viper.WatchConfig()
 	viper.OnConfigChange(func(e fsnotify.Event) {
 		fmt.Println("Config file changed:", e.Name)
 	})
+
+	// Set default PORT to 8080 (if not given) and read the config
 	viper.SetDefault("PORT", "8080")
 	if err = viper.ReadInConfig(); err != nil {
 		log.Panicf("Error reading config file, %s", err)
