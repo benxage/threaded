@@ -1,4 +1,4 @@
-# slackChan
+# Threaded.chat #
 4 chan slack
 
 ## Dev Installation ##

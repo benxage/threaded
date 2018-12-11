@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/bli940505/slackChan/server/internals/configs"
+	"github.com/bli940505/threaded/server/internals/config"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
 )
@@ -30,7 +30,7 @@ func GetExample(configuration *config.Config) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := chi.URLParam(r, "id")
 		example := Example{
-			Title: "SlackChan running on PORT " + configuration.Constants.PORT,
+			Title: "threaded running on PORT " + configuration.Constants.PORT,
 			Body:  fmt.Sprintf("ID you gave is %s", id),
 		}
 		render.JSON(w, r, example) // A chi router helper for serializing and returning json
@@ -42,11 +42,11 @@ func GetAllExamples(configuration *config.Config) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		examples := []Example{
 			{
-				Title: "SlackChan running on PORT " + configuration.Constants.PORT,
+				Title: "threaded running on PORT " + configuration.Constants.PORT,
 				Body:  "I HAVE NEVER HAD SEX WITH WAYNE",
 			},
 			{
-				Title: "SlackChan running on PORT " + configuration.Constants.PORT,
+				Title: "threaded running on PORT " + configuration.Constants.PORT,
 				Body:  "I HAVE NEVER HAD SEX WITH DRAKE",
 			},
 		}

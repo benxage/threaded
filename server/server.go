@@ -5,8 +5,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/bli940505/slackChan/server/api/example"
-	"github.com/bli940505/slackChan/server/internals/configs"
+	"github.com/bli940505/threaded/server/api/example"
+	"github.com/bli940505/threaded/server/internals/config"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/render"
