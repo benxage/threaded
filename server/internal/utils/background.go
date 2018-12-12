@@ -12,6 +12,17 @@ import (
 // BackgroundHandler spawns two thread to listen for system signals and errors.
 // Will gracefully stops server on certain signals and errors
 func BackgroundHandler(s *types.Server) {
+	shutdown := func() {
+		close(s.Err)
+		close(s.Sigs)
+		if s.Database != nil {
+			fmt.Println("closing database")
+			s.Database.Close()
+		}
+		fmt.Println("shutting down")
+		os.Exit(0)
+	}
+
 	// rely all system signals
 	signal.Notify(s.Sigs)
 
@@ -21,21 +32,9 @@ func BackgroundHandler(s *types.Server) {
 			fmt.Printf("caught signal: %+v\n", sigs)
 			switch sigs {
 			case syscall.SIGTERM:
-				fmt.Println("shutting down")
-				close(s.Err)
-				close(s.Sigs)
-				if s.Database != nil {
-					s.Database.Close()
-				}
-				os.Exit(0)
+				shutdown()
 			case syscall.SIGINT:
-				fmt.Println("shutting down")
-				close(s.Err)
-				close(s.Sigs)
-				if s.Database != nil {
-					s.Database.Close()
-				}
-				os.Exit(0)
+				shutdown()
 			default:
 				fmt.Println("default signal")
 				continue
@@ -51,13 +50,7 @@ func BackgroundHandler(s *types.Server) {
 				continue
 			default:
 				fmt.Printf("caught error: %+v\n", err)
-				fmt.Println("shutting down")
-				close(s.Sigs)
-				close(s.Err)
-				if s.Database != nil {
-					s.Database.Close()
-				}
-				os.Exit(0)
+				shutdown()
 			}
 		}
 	}()
