@@ -4,17 +4,17 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/bli940505/threaded/server/internal/types"
+	"github.com/bli940505/threaded/server/instance"
 )
 
 // HandleErrors spawns two thread to listen for system signals and errors.
 // Will gracefully stops server on certain signals and errors
-func HandleErrors(s *types.Server) {
+func HandleErrors(in *instance.Instance) {
 	shutdown := func() {
-		close(s.Err)
-		if s.Database != nil {
+		close(in.Err)
+		if in.Database != nil {
 			fmt.Println("closing database")
-			s.Database.Close()
+			in.Database.Close()
 		}
 		fmt.Println("shutting down")
 		os.Exit(0)
@@ -22,7 +22,7 @@ func HandleErrors(s *types.Server) {
 
 	// spawn error listener
 	go func() {
-		for err := range s.Err {
+		for err := range in.Err {
 			switch err {
 			case nil:
 				continue

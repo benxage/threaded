@@ -16,9 +16,9 @@ type Postgres struct {
 }
 
 // NewPostgres returns a postgres instance
-func NewPostgres(filename string) (*Postgres, error) {
-	dbo, err := readPostgresConfig(filename)
-	return &Postgres{DB: pg.Connect(dbo), Opt: dbo}, err
+func NewPostgres(filename string) *Postgres {
+	dbo := readPostgresConfig(filename)
+	return &Postgres{DB: pg.Connect(dbo), Opt: dbo}
 }
 
 // Close closes the database
@@ -55,7 +55,7 @@ func (db *Postgres) PrintInfo() {
 	log.Printf("MinRetryBackoff: %s\n", db.Opt.MinRetryBackoff.String())
 }
 
-func readPostgresConfig(filename string) (*pg.Options, error) {
+func readPostgresConfig(filename string) *pg.Options {
 	viper.AddConfigPath(".")
 	viper.SetConfigName(filename)
 	viper.SetDefault("database", "threaded")
@@ -66,5 +66,6 @@ func readPostgresConfig(filename string) (*pg.Options, error) {
 	})
 
 	var dbo pg.Options
-	return &dbo, viper.Unmarshal(&dbo)
+	viper.Unmarshal(&dbo)
+	return &dbo
 }

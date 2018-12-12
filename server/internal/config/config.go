@@ -14,8 +14,8 @@ type Config struct {
 	Port string
 }
 
-// NewConfig TODO
-func NewConfig(filename string) (*Config, error) {
+// New TODO
+func New(filename string) *Config {
 	viper.AddConfigPath(".")
 	viper.SetConfigName(filename)
 	viper.SetDefault("host", "localhost")
@@ -27,7 +27,8 @@ func NewConfig(filename string) (*Config, error) {
 	})
 
 	var env Config
-	return &env, viper.Unmarshal(&env)
+	viper.Unmarshal(&env)
+	return &env
 }
 
 // PrintInfo prints the config info of this config
