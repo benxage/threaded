@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 
-	"github.com/bli940505/threaded/server/api/example"
+	"github.com/bli940505/threaded/server/api"
 	"github.com/bli940505/threaded/server/database"
+	"github.com/bli940505/threaded/server/internal/config"
+	"github.com/bli940505/threaded/server/internal/errors"
 	"github.com/bli940505/threaded/server/internal/types"
-	"github.com/bli940505/threaded/server/internal/utils"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/render"
@@ -27,46 +27,32 @@ func Router(s *types.Server) *chi.Mux {
 		middleware.Recoverer,       // Recover from panics without crashing server
 	)
 
-	// TODO: mount as sub-router for version management
-
-	router.Mount("/api/example", example.Routes(s))
-	/******************************************
-	**MOUNT YOUR ROUTES HERE AFTER IMPORTING!**
-	******************************************/
+	router.Mount("/api", api.Routes(s))
 
 	return router
 }
 
 func main() {
 	// You can specifiy a *.toml file as the config by passing in `-env=<filename>` or `-db=<filename>`
-	envFilename := flag.String("env", "env", "env filename; must exist under server/internal/configs directory")
-	databaseFilename := flag.String("db", "database", "database filename; must exist under server/internal/configs directory")
+	configFilename := flag.String("config", "config", "env filename; must exist under server/ directory")
+	databaseFilename := flag.String("db", "database", "database filename; must exist under server/ directory")
 	flag.Parse()
 
 	// register a new server with the BackgroundHandler
 	server := &types.Server{
-		Sigs: make(chan os.Signal),
-		Err:  make(chan error),
+		Err: make(chan error),
 	}
-	utils.BackgroundHandler(server)
+	errors.HandleErrors(server)
 
-	// read configs
-	env, dbc, err := utils.ReadConfig(*envFilename, *databaseFilename)
+	db, err := database.NewPostgres(*databaseFilename)
 	server.Err <- err
-	server.URL = *env
+
+	c, err := config.NewConfig(*configFilename)
+	server.Err <- err
 
 	// utility prints for debugging
 	fmt.Printf("%+v\n", *env)
 	fmt.Printf("%+v\n", *dbc)
-
-	// create new database
-	db := database.New(dbc)
-	server.Database = db
-
-	// signal test
-	// server.Sigs <- syscall.SIGTERM
-	// server.Sigs <- syscall.SIGHUP
-	// server.Sigs <- syscall.SIGINT
 
 	// get the root router
 	router := Router(server)

@@ -1,4 +1,4 @@
-package example
+package api
 
 import (
 	"net/http"
@@ -7,8 +7,8 @@ import (
 	"github.com/go-chi/chi"
 )
 
-// Routes returns a router with all of the Person's routes attached
-func Routes(s *types.Server) *chi.Mux {
+// RouteExample TODO
+func RouteExample(s *types.Server) *chi.Mux {
 	router := chi.NewRouter()
 	router.Get("/{id}", GetPerson(s))
 	router.Delete("/{id}", DeletePerson(s))
