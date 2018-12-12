@@ -1,0 +1,8 @@
+user = "user"
+password = "123"
+database = "threaded"
+network = "tcp"
+addr = "localhost:1000"
+applicationName = "allah"
+dialTimeout = 10
+poolSize = 10
