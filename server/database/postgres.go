@@ -27,8 +27,8 @@ func (db *Postgres) Close() {
 }
 
 // Insert TODO
-func (db *Postgres) Insert() error {
-	return nil
+func (db *Postgres) Insert(model interface{}) error {
+	return db.DB.Insert(model)
 }
 
 // PrintInfo prints the config info used

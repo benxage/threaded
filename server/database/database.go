@@ -4,6 +4,6 @@ package database
 // interface to be used as the server's database.
 type Database interface {
 	Close()
-	Insert() error
 	PrintInfo()
+	Insert(interface{}) error
 }

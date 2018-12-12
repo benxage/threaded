@@ -11,8 +11,8 @@ import (
 	"github.com/go-chi/render"
 )
 
-// PrintInfo will walk and print all routes mounted
-func PrintInfo(router *chi.Mux, in *instance.Instance) {
+// PrintRoutes will walk and print all routes mounted
+func PrintRoutes(router *chi.Mux, in *instance.Instance) {
 	// Walk and print out all routes
 	walker := func(method string, route string, handler http.Handler, middlewares ...func(http.Handler) http.Handler) error {
 		log.Printf("%s %s\n", method, route)

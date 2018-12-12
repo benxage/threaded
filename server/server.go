@@ -15,7 +15,7 @@ import (
 func main() {
 	// You can specifiy a *.toml file as the config by passing in `-env=<filename>` or `-db=<filename>`
 	configFilename := flag.String("config", "config", "config filename; must exist under server/ directory")
-	databaseFilename := flag.String("db", "database", "database filename; must exist under server/ directory")
+	databaseFilename := flag.String("db", "postgres", "database filename; must exist under server/ directory")
 	flag.Parse()
 
 	// register a new server with the BackgroundHandler
@@ -31,7 +31,7 @@ func main() {
 
 	// get the root router
 	router := api.Router(serverInstance)
-	api.PrintInfo(router, serverInstance)
+	api.PrintRoutes(router, serverInstance)
 	log.Printf("Application running on %s:%s\n", serverInstance.Config.Host, serverInstance.Config.Port)
 	log.Fatal(http.ListenAndServe(":"+serverInstance.Config.Port, router))
 }
