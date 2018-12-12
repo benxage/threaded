@@ -15,11 +15,7 @@ type Instance struct {
 
 // New TODO
 func New() *Instance {
-	server := &Instance{
-		Err: make(chan error),
-	}
-
-	return server
+	return &Instance{Err: make(chan error)}
 }
 
 // SetConfig TODO
