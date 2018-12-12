@@ -7,23 +7,23 @@ import (
 
 // Instance represents the backend passed around the codebase.
 // Err is a reserved channel for error handling
-type Instance struct {
+type ServerInstance struct {
 	Config   *config.Config
 	Database database.Database
 	Err      chan error
 }
 
 // New TODO
-func New() *Instance {
-	return &Instance{Err: make(chan error)}
+func New() *ServerInstance {
+	return &ServerInstance{Err: make(chan error)}
 }
 
 // SetConfig TODO
-func (in *Instance) SetConfig(c *config.Config) {
+func (in *ServerInstance) SetConfig(c *config.Config) {
 	in.Config = c
 }
 
 // SetDatabase TODO
-func (in *Instance) SetDatabase(db database.Database) {
+func (in *ServerInstance) SetDatabase(db database.Database) {
 	in.Database = db
 }

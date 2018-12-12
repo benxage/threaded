@@ -24,7 +24,7 @@ func PrintRoutes(router *chi.Mux) error {
 }
 
 // Router returns a router with all of the routes mounted
-func Router(in *instance.Instance) *chi.Mux {
+func Router(in *instance.ServerInstance) *chi.Mux {
 	router := chi.NewRouter()
 	router.Use(
 		render.SetContentType(render.ContentTypeJSON), // Set content-Type headers as application/json

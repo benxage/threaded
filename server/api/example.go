@@ -8,7 +8,7 @@ import (
 )
 
 // RouteExample TODO
-func RouteExample(in *instance.Instance) *chi.Mux {
+func RouteExample(in *instance.ServerInstance) *chi.Mux {
 	router := chi.NewRouter()
 	router.Get("/{id}", GetPerson(in))
 	router.Delete("/{id}", DeletePerson(in))
@@ -17,16 +17,16 @@ func RouteExample(in *instance.Instance) *chi.Mux {
 }
 
 // CreatePerson TODO
-func CreatePerson(in *instance.Instance) http.HandlerFunc {
+func CreatePerson(in *instance.ServerInstance) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {}
 }
 
 // DeletePerson TODO
-func DeletePerson(in *instance.Instance) http.HandlerFunc {
+func DeletePerson(in *instance.ServerInstance) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {}
 }
 
 // GetPerson TODO
-func GetPerson(in *instance.Instance) http.HandlerFunc {
+func GetPerson(in *instance.ServerInstance) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {}
 }

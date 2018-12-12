@@ -9,7 +9,7 @@ import (
 
 // HandleErrors spawns two thread to listen for system signals and errors.
 // Will gracefully stops server on certain signals and errors
-func HandleErrors(in *instance.Instance) {
+func HandleErrors(in *instance.ServerInstance) {
 	shutdown := func() {
 		close(in.Err)
 		if in.Database != nil {
