@@ -34,7 +34,7 @@ func Router(s *types.Server) *chi.Mux {
 
 func main() {
 	// You can specifiy a *.toml file as the config by passing in `-env=<filename>` or `-db=<filename>`
-	configFilename := flag.String("config", "config", "env filename; must exist under server/ directory")
+	configFilename := flag.String("config", "config", "config filename; must exist under server/ directory")
 	databaseFilename := flag.String("db", "database", "database filename; must exist under server/ directory")
 	flag.Parse()
 
@@ -45,14 +45,16 @@ func main() {
 	errors.HandleErrors(server)
 
 	db, err := database.NewPostgres(*databaseFilename)
+	server.Database = db
 	server.Err <- err
 
 	c, err := config.NewConfig(*configFilename)
+	server.Config = c
 	server.Err <- err
 
-	// utility prints for debugging
-	fmt.Printf("%+v\n", *env)
-	fmt.Printf("%+v\n", *dbc)
+	// print config read
+	server.Config.PrintInfo()
+	server.Database.PrintInfo()
 
 	// get the root router
 	router := Router(server)
@@ -62,8 +64,9 @@ func main() {
 		log.Printf("%s %s\n", method, route)
 		return nil
 	}
+	fmt.Println("---Server Information---")
 	server.Err <- chi.Walk(router, walkFunc)
 
-	log.Println(fmt.Sprintf("Application running on %s:%s\n", server.URL.Host, server.URL.Port))
-	log.Fatal(http.ListenAndServe(":"+server.URL.Port, router))
+	log.Printf("Application running on %s:%s\n", server.Config.Host, server.Config.Port)
+	log.Fatal(http.ListenAndServe(":"+server.Config.Port, router))
 }
