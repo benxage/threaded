@@ -12,7 +12,7 @@ import (
 )
 
 // PrintRoutes will walk and print all routes mounted
-func PrintRoutes(router *chi.Mux, in *instance.Instance) {
+func PrintRoutes(router *chi.Mux) error {
 	// Walk and print out all routes
 	walker := func(method string, route string, handler http.Handler, middlewares ...func(http.Handler) http.Handler) error {
 		log.Printf("%s %s\n", method, route)
@@ -20,10 +20,10 @@ func PrintRoutes(router *chi.Mux, in *instance.Instance) {
 	}
 
 	fmt.Println("---Server Information---")
-	in.Err <- chi.Walk(router, walker)
+	return chi.Walk(router, walker)
 }
 
-// Router returns a router with all of the Person's routes attached
+// Router returns a router with all of the routes mounted
 func Router(in *instance.Instance) *chi.Mux {
 	router := chi.NewRouter()
 	router.Use(

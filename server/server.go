@@ -18,7 +18,7 @@ func main() {
 	databaseFilename := flag.String("db", "postgres", "database filename; must exist under server/ directory")
 	flag.Parse()
 
-	// register a new server with the BackgroundHandler
+	// register a new server with the HandleErrors
 	serverInstance := instance.New()
 	errors.HandleErrors(serverInstance)
 
@@ -29,9 +29,11 @@ func main() {
 	serverInstance.Config.PrintInfo()
 	serverInstance.Database.PrintInfo()
 
-	// get the root router
+	// get the root router and print routes
 	router := api.Router(serverInstance)
-	api.PrintRoutes(router, serverInstance)
+	serverInstance.Err <- api.PrintRoutes(router)
+
+	// start server
 	log.Printf("Application running on %s:%s\n", serverInstance.Config.Host, serverInstance.Config.Port)
 	log.Fatal(http.ListenAndServe(":"+serverInstance.Config.Port, router))
 }
