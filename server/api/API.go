@@ -11,9 +11,9 @@ func Routes(s *types.Server) *chi.Mux {
 
 	router.Mount("/example", RouteExample(s))
 
-	/*******************************************
-	**MOUNT YOUR ROUTES HERE AFTER LIKE ABOVE!**
-	*******************************************/
+	/*************************************
+	**MOUNT YOUR ROUTES HERE LIKE ABOVE!**
+	*************************************/
 
 	return router
 }

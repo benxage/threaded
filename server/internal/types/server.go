@@ -9,6 +9,6 @@ import (
 // Err is a reserved channel for error handling
 type Server struct {
 	Config   *config.Config
-	Database *database.Postgres
+	Database database.Database
 	Err      chan error
 }

@@ -17,7 +17,7 @@ type Postgres struct {
 
 // NewPostgres returns a postgres instance
 func NewPostgres(filename string) (*Postgres, error) {
-	dbo, err := readConfig(filename)
+	dbo, err := readPostgresConfig(filename)
 	return &Postgres{DB: pg.Connect(dbo), Opt: dbo}, err
 }
 
@@ -27,8 +27,8 @@ func (db *Postgres) Close() {
 }
 
 // Insert TODO
-func (db *Postgres) Insert() {
-
+func (db *Postgres) Insert() error {
+	return nil
 }
 
 // PrintInfo prints the config info used
@@ -53,11 +53,9 @@ func (db *Postgres) PrintInfo() {
 	log.Printf("MaxRetries: %d\n", db.Opt.MaxRetries)
 	log.Printf("MaxRetryBackoff: %s\n", db.Opt.MaxRetryBackoff.String())
 	log.Printf("MinRetryBackoff: %s\n", db.Opt.MinRetryBackoff.String())
-
-	// log.Printf("%+v\n", *db.Opt)
 }
 
-func readConfig(filename string) (*pg.Options, error) {
+func readPostgresConfig(filename string) (*pg.Options, error) {
 	viper.AddConfigPath(".")
 	viper.SetConfigName(filename)
 	viper.SetDefault("database", "threaded")
