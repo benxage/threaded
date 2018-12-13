@@ -56,7 +56,7 @@ func (db *Postgres) PrintInfo() {
 }
 
 func readPostgresConfig(filename string) *pg.Options {
-	viper.AddConfigPath(".")
+	viper.AddConfigPath("./database")
 	viper.SetConfigName(filename)
 	viper.SetDefault("database", "threaded")
 	viper.ReadInConfig() // ignoring read error

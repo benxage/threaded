@@ -18,7 +18,8 @@ func RouteExample(in *instance.ServerInstance) *chi.Mux {
 
 // CreatePerson TODO
 func CreatePerson(in *instance.ServerInstance) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {}
+	return func(w http.ResponseWriter, r *http.Request) {
+	}
 }
 
 // DeletePerson TODO

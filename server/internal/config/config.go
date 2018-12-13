@@ -16,7 +16,7 @@ type Config struct {
 
 // New TODO
 func New(filename string) *Config {
-	viper.AddConfigPath(".")
+	viper.AddConfigPath("./internal/config")
 	viper.SetConfigName(filename)
 	viper.SetDefault("host", "localhost")
 	viper.SetDefault("port", 4000)

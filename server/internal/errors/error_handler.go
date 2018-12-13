@@ -1,7 +1,7 @@
 package errors
 
 import (
-	"fmt"
+	"log"
 	"os"
 
 	"github.com/bli940505/threaded/server/instance"
@@ -13,10 +13,10 @@ func HandleErrors(in *instance.ServerInstance) {
 	shutdown := func() {
 		close(in.Err)
 		if in.Database != nil {
-			fmt.Println("closing database")
+			log.Println("closing database")
 			in.Database.Close()
 		}
-		fmt.Println("shutting down")
+		log.Println("shutting down")
 		os.Exit(0)
 	}
 
@@ -26,9 +26,12 @@ func HandleErrors(in *instance.ServerInstance) {
 			switch err {
 			case nil:
 				continue
-			default:
-				fmt.Printf("caught error: %+v\n", err)
+			case FatalError, InternalServerError:
+				log.Printf("caught error: %+v\n", err)
 				shutdown()
+			default:
+				log.Printf("caught error: %+v\n", err)
+				continue
 			}
 		}
 	}()
