@@ -92,4 +92,6 @@ Unless there's a special case, DO NOT pass the error back up the stack.
 
 **DO NOT PUSH TO MASTER!** Don't even try, it's restricted.
 
-Create your own branch with a proper name and submit a PR when you're ready. PRs are configured to required at least one approval before merging.
+Create your own branch with a proper name and submit a PR when you're ready. 
+
+**PRs are configured to required at least one approval before merging.**
