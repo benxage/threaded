@@ -10,7 +10,7 @@ TODO
 
 Dev contains a script named `dev.sh` that does easy launching for you. Since the front does not yet exist, this just starts the server. 
 
-`dev.sh` can be used in the following ways:
+`dev.sh` can be used in the following ways (you may have to give it permission by running `chmod +x dev.sh`):
 
 * `dev.sh launch` launches the server
 * `dev.sh launch background` launches the server in the background without corrupting your current terminal. You may have to manually kill the process later.
