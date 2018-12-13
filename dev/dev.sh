@@ -10,6 +10,7 @@ SERVER_DIR=$PROJECT_DIR/server
 SERVER=server.go
 
 IGNORE_DIR=vendor,build
+IGNORE_EXT=toml
 
 EnsureDep() {
     echo "checking dependencies..."
@@ -30,7 +31,7 @@ EnsureDep() {
 }
 
 ProjectInfo() {
-    cloc --exclude-ext=toml --exclude-dir=$IGNORE_DIR $PROJECT_DIR
+    cloc --exclude-ext=$IGNORE_EXT --exclude-dir=$IGNORE_DIR $PROJECT_DIR
 }
 
 Launch() {
