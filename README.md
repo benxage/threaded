@@ -44,7 +44,7 @@ Note `instance.ServerInstance{}` under `server/instance/instance.go` includes a 
 
 Right now the database is extremely basic. You will probably need to add your own functions. For every function you add, unless it is a database specific operation, please add the function signature under the `Database` interface as well.
 
-**Even if the database operation is simplistic, please still add it under a function wrapper. Again, this is for modularity purposes.
+**Even if the database operation is simplistic, please still add it under a function wrapper. Again, this is for modularity purposes.**
 
 ### instance ###
 
