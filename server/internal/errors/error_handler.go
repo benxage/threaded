@@ -7,8 +7,8 @@ import (
 	"github.com/bli940505/threaded/server/instance"
 )
 
-// HandleErrors spawns two thread to listen for system signals and errors.
-// Will gracefully stops server on certain signals and errors
+// HandleErrors spawns a thread to listen for the error channel.
+// Will gracefully stops server on certain errors
 func HandleErrors(in *instance.ServerInstance) {
 	shutdown := func() {
 		close(in.Err)
