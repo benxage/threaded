@@ -16,13 +16,11 @@ func main() {
 	// You can specifiy a *.toml file as the config by passing in `-env=<filename>` or `-db=<filename>`
 	configFilename := flag.String("conf", "config", "config filename; must exist under server/internal/config/ directory")
 	databaseFilename := flag.String("db", "postgres", "database filename; must exist under server/database/ directory")
-	errorFilename := flag.String("err", "internal/errors/errors.yaml", "error filename; must exist under server/internal/errors/ directory")
 	flag.Parse()
 
 	// register a new server with the HandleErrors
 	serverInstance := instance.New()
 	errors.HandleErrors(serverInstance)
-	serverInstance.Err <- errors.LoadMessages(*errorFilename)
 
 	serverInstance.SetConfig(config.New(*configFilename))
 	serverInstance.SetDatabase(database.NewPostgres(*databaseFilename))

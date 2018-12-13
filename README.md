@@ -13,7 +13,7 @@ Dev contains a script named `dev.sh` that does easy launching for you. Since the
 `dev.sh` can be used in the following ways:
 
 * `dev.sh launch` launches the server
-* `dev.sh launch background` launches the server in the background without corrupting your current terminal
+* `dev.sh launch background` launches the server in the background without corrupting your current terminal. You may have to manually kill the process later.
 * `dev.sh info` calls  `cloc` to parse information about the project. Right now it prints information such as how many lines of code in relation to what language is used.
 
 **`dev.sh` contains Linux support but have not been tested**
@@ -88,4 +88,4 @@ Unless there's a special case, DO NOT pass the error back up the stack.
 
 **DO NOT PUSH TO MASTER!** Don't even try, it's restricted.
 
-Create your own branch with a proper name and submit a PR when you're ready. PRs are restricted to required at least one approval before merging.
+Create your own branch with a proper name and submit a PR when you're ready. PRs are configured to required at least one approval before merging.
