@@ -22,6 +22,8 @@ Dev contains a script named `dev.sh` that does easy launching for you. Since the
 
 Server is written with [chi](https://github.com/go-chi/chi), a light weight router that's compatible with Go's native `net/http` library. Database uses [go-pg/pg](https://github.com/go-pg/pg) with ORM support.
 
+To run the server manually, make sure you have [dep](https://github.com/golang/dep) installed, and run `dep ensure` under `server/` to resolve dependencies. Then run `go run server.go`.
+
 ### api ###
 
 `server/api/` is where you will write all of your routes. `api.go` is the main entry pointer for the api package.

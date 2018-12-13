@@ -15,13 +15,18 @@ EnsureDep() {
     echo "checking dependencies..."
 
     if [[ "$(uname)" == "Linux" ]]; then
-        apt-get update && apt-get install -y cloc
+        apt-get update && apt-get install -y cloc dep
     elif [[ "$(uname)" == "Darwin" ]]; then
         command -v brew >/dev/null 2>&1 || { echo >&2 "Installing Homebrew Now"; \
             /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"; }
         
         brew list cloc || brew install cloc
+        brew list dep || brew install dep
     fi
+
+    pushd $SERVER_DIR
+    dep ensure
+    popd
 }
 
 ProjectInfo() {
