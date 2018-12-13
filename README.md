@@ -86,7 +86,7 @@ Unless there's a special case, DO NOT pass the error back up the stack.
 
 ### config ###
 
-`server/internal/config/config.go` simple parses a `.toml` file for dynamic configuration purposes. Right now only a `Host` and a `Port` defined.
+`server/internal/config/config.go` simply parses a `.toml` file for dynamic configuration purposes. Right now only a `Host` and a `Port` defined.
 
 ## Development ##
 
