@@ -4,11 +4,11 @@ There's three main folders. `Dev/` is build and script related, `client/` is the
 
 **You must follow Go's workspace convention by putting this repo under `$GOPATH/src/github.com/benxage/` or else dependencies will not resolve. You can choose to manually resolve all the the imports but that will fuck up everyone else.**
 
-## client ##
+## Client ##
 
 TODO
 
-## dev ##
+## Dev ##
 
 Dev contains a script named `dev.sh` that does easy launching for you. Since the front does not yet exist, this just starts the server. 
 
@@ -20,7 +20,7 @@ Dev contains a script named `dev.sh` that does easy launching for you. Since the
 
 **`dev.sh` contains Linux support but have not been tested**
 
-## server ##
+## Server ##
 
 Server is written with [chi](https://github.com/go-chi/chi), a light weight router that's compatible with Go's native `net/http` library. Database uses [go-pg/pg](https://github.com/go-pg/pg) with ORM support.
 
