@@ -2,7 +2,7 @@
 
 There's three main folders. `Dev/` is build and script related, `client/` is the frontend, and `server/` is all backend related.
 
-**You must follow Go's workspace convention by putting this repo under `$GOPATH/src/github.com/bli940505/` or else dependencies will not resolve. You can choose to manually resolve all the the imports but that will fuck up everyone else.**
+**You must follow Go's workspace convention by putting this repo under `$GOPATH/src/github.com/benxage/` or else dependencies will not resolve. You can choose to manually resolve all the the imports but that will fuck up everyone else.**
 
 ## client ##
 
